@@ -3,6 +3,8 @@ package com.example.android.bakingapp.recepie_list;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.example.android.bakingapp.Beans.Recipe;
 import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.RecipeAdapter;
 
 import java.util.List;
 
@@ -24,7 +27,7 @@ import butterknife.Unbinder;
  * Created by akshayshahane on 16/07/17.
  */
 
-public class FragmentRecepieList extends Fragment implements RecipesListContract.View {
+public class FragmentRecepieList extends Fragment implements RecipesListContract.View ,RecipeAdapter.ItemListener {
 
     @BindView(R.id.pb)
     ProgressBar mPb;
@@ -33,6 +36,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     Unbinder unbinder;
     private RecipesListContract.Presenter recipeListPresenter;
     private RecepiePresenter mRecepiePresenter;
+    private RecipeAdapter mAdapter;
 
     @Nullable
     @Override
@@ -53,7 +57,9 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+
     }
+
 
     @Override
     public void setPresenter(RecipesListContract.Presenter presenter) {
@@ -65,6 +71,12 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
         if (BuildConfig.DEBUG) {
             Toast.makeText(getContext(), "Size of data" + recipeList.size(), Toast.LENGTH_SHORT).show();
         }
+
+        mAdapter = new RecipeAdapter(recipeList, this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mRvFragmentRecipes.setLayoutManager(mLayoutManager);
+        mRvFragmentRecipes.setItemAnimator(new DefaultItemAnimator());
+        mRvFragmentRecipes.setAdapter(mAdapter);
 
     }
 
@@ -82,7 +94,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
 
     @Override
     public void showError(String errorMsg) {
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
         }
 
@@ -90,6 +102,15 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
 
     @Override
     public void showRecipeDetailsUI(int recipeId) {
+
+    }
+
+    @Override
+    public void onItemClick(Recipe item) {
+
+        if (BuildConfig.DEBUG){
+            Toast.makeText(getContext(), ""+ item.getName(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
