@@ -11,6 +11,7 @@ import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.data.ApiInterface;
 import com.example.android.bakingapp.data.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,11 +25,12 @@ import retrofit2.Response;
 public class RecepiePresenter implements RecipesListContract.Presenter {
     private static final String TAG = "RecepiePresenter";
     private RecipesListContract.View mView;
-
+    List<Recipe> recipeList;
 
     public RecepiePresenter(@NonNull RecipesListContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        recipeList = new ArrayList<>();
     }
 
     @Override
@@ -39,6 +41,7 @@ public class RecepiePresenter implements RecipesListContract.Presenter {
     @Override
     public void fetchRecipesFromServre() {
         mView.showProgressBar();
+        recipeList.clear();
 
         ApiInterface api = RetrofitClient.getClient().create(ApiInterface.class);
         Call<List<Recipe>> call = api.fetchRecipes();
@@ -48,7 +51,7 @@ public class RecepiePresenter implements RecipesListContract.Presenter {
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
 
 
-                List<Recipe> recipeList = response.body();
+                recipeList = response.body();
                 if (recipeList.size() !=0 && null != recipeList){
                     mView.showRecipesList(recipeList);
                     mView.hidProgressBar();

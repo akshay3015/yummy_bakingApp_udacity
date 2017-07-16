@@ -1,7 +1,13 @@
 package com.example.android.bakingapp;
 
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.Beans.Recipe;
+import com.example.android.bakingapp.Beans.Steps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,6 +53,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.setData(myItems.get(position));
         holder.mTvRecipeName.setText(myItems.get(position).getName());
         holder.mTvServings.setText("Servings : "+ myItems.get(position).getServings());
+
+        try {
+            List<Steps> mStepList = myItems.get(position).getStepsList();
+            holder.mIvRecipe.setImageBitmap(retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString()));
+            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()).getVideoURL());
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     public interface ItemListener {
@@ -85,6 +101,31 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         }
     }
 
+
+    public static Bitmap retriveVideoFrameFromVideo(String videoPath) throws Throwable
+    {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try
+        {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            if (Build.VERSION.SDK_INT >= 14)
+                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            else
+                mediaMetadataRetriever.setDataSource(videoPath);
+            //   mediaMetadataRetriever.setDataSource(videoPath);
+            bitmap = mediaMetadataRetriever.getFrameAtTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Throwable("Exception in retriveVideoFrameFromVideo(String videoPath)" + e.getMessage());
+
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
+    }
 
 }
                                 
