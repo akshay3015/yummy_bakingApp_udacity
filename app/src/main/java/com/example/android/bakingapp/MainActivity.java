@@ -7,18 +7,19 @@ import android.os.Bundle;
 import com.example.android.bakingapp.recepie_list.FragmentRecepieList;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .add(R.id.container,new FragmentRecepieList())
-                .commit();
+        if (savedInstanceState == null) {
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .add(R.id.container, new FragmentRecepieList())
+                    .commit();
+        }
     }
 
 }

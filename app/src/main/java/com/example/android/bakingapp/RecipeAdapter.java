@@ -54,13 +54,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.mTvRecipeName.setText(myItems.get(position).getName());
         holder.mTvServings.setText("Servings : "+ myItems.get(position).getServings());
 
-        try {
-            List<Steps> mStepList = myItems.get(position).getStepsList();
-            holder.mIvRecipe.setImageBitmap(retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString()));
-            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()).getVideoURL());
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+//        try {
+//            List<Steps> mStepList = myItems.get(position).getStepsList();
+//            holder.mIvRecipe.setImageBitmap(retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString()));
+//            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL());
+//        } catch (Throwable throwable) {
+//            throwable.printStackTrace();
+//        }
     }
 
     public interface ItemListener {

@@ -1,7 +1,11 @@
 package com.example.android.bakingapp.Beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +13,7 @@ import java.util.List;
  * Created by akshayshahane on 16/07/17.
  */
 
-public class Recipe {
+public class Recipe implements Parcelable {
     @SerializedName("id")
     private int id;
 
@@ -27,6 +31,27 @@ public class Recipe {
 
     @SerializedName("steps")
     private  List<Steps> mStepsList = new ArrayList<>();
+
+    protected Recipe(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        servings = in.readString();
+        image = in.readString();
+        mIngredientsList = (ArrayList<Ingredients>) in.readSerializable();
+        mStepsList = (ArrayList<Steps>) in.readSerializable();
+    }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -74,5 +99,20 @@ public class Recipe {
 
     public void setStepsList(List<Steps> stepsList) {
         mStepsList = stepsList;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(servings);
+        parcel.writeString(image);
+        parcel.writeSerializable((Serializable) mIngredientsList);
+        parcel.writeInt(id);
+        parcel.writeSerializable((Serializable) mStepsList);
     }
 }

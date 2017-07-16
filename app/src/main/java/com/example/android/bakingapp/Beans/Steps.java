@@ -2,11 +2,13 @@ package com.example.android.bakingapp.Beans;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by akshayshahane on 16/07/17.
  */
 
-public  class Steps {
+public  class Steps implements Serializable {
     @SerializedName("id")
     private int id;
 
