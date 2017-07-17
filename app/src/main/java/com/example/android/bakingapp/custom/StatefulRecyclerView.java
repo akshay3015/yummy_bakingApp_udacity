@@ -11,12 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-/**
- * Class {@link StatefulRecyclerView} extends {@link RecyclerView} and adds position management on configuration changes.
- *
- * @author FrantisekGazo
- * @version 2016-03-15
- */
+
 public final class StatefulRecyclerView
         extends RecyclerView {
 

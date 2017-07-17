@@ -1,5 +1,7 @@
 package com.example.android.bakingapp.recepie_list;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -42,7 +44,11 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     private RecipeAdapter mAdapter;
     private static String RECIPE_SAVED_INSATANCE_KEY = "recipesList";
     private List<Recipe> mRecipeList;
+    private DataPassListener callBack;
 
+    public interface DataPassListener{
+        public void passData(Recipe recipe);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +84,18 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Make sure that container activity implement the callback interface
+        try {
+            callBack = (DataPassListener)context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement DataPassListener");
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -105,6 +123,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
 
     @Override
     public void showRecipesList(List<Recipe> recipeList) {
+
 
 
         mRecipeList = recipeList;
@@ -147,6 +166,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
 
         if (BuildConfig.DEBUG) {
             Toast.makeText(getContext(), "" + item.getName(), Toast.LENGTH_SHORT).show();
+            callBack.passData(item);
         }
 
     }
