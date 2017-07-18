@@ -5,12 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.android.bakingapp.beans.Recipe;
+import com.example.android.bakingapp.custom.OnBackPressedListener;
 import com.example.android.bakingapp.recepielist.FragmentRecepieList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener{
-
+    protected OnBackPressedListener onBackPressedListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +21,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
                     .add(R.id.container, new FragmentRecepieList())
+                    .addToBackStack("f1")
                     .commit();
         }
     }
-
-    public  void setActionBarTitle(String title){
-        getSupportActionBar().setTitle(title);
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
     }
 
     @Override
@@ -37,6 +38,20 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container,fragmentRecipeDetails)
+                .addToBackStack("f2")
                 .commit();
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (onBackPressedListener != null)
+            onBackPressedListener.doBack();
+        else
+            super.onBackPressed();
+    }
+
+
+
+
 }

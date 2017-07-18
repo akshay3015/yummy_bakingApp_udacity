@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.android.bakingapp.MainActivity;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.RecipeAdapter;
+import com.example.android.bakingapp.custom.BaseBackPressedListener;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 
 import java.util.ArrayList;
@@ -46,7 +49,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     private DataPassListener callBack;
 
     public interface DataPassListener{
-        public void passData(Recipe recipe);
+         void passData(Recipe recipe);
     }
     @Nullable
     @Override
@@ -72,6 +75,8 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
         mRvFragmentRecipes.setLayoutManager(mLayoutManager);
         mRvFragmentRecipes.setItemAnimator(new DefaultItemAnimator());
         mRvFragmentRecipes.setAdapter(mAdapter);
+        ((MainActivity)  getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
+
         return view;
     }
 

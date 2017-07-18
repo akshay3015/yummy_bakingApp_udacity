@@ -52,15 +52,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.mTvRecipeName.setText(myItems.get(position).getName());
         holder.mTvServings.setText("Servings : "+ myItems.get(position).getServings());
 
-        try {
-            List<Steps> mStepList = myItems.get(position).getStepsList();
-//            Bitmap bitmap = retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString());
-//            Picasso.with(holder.mIvRecipe.getContext()).load(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL()).placeholder(R.drawable.leak_canary_icon).error(R.drawable.error).into(holder.mIvRecipe);
-
-            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL());
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+//        try {
+//            List<Steps> mStepList = myItems.get(position).getStepsList();
+////            Bitmap bitmap = retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString());
+////            Picasso.with(holder.mIvRecipe.getContext()).load(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL()).placeholder(R.drawable.leak_canary_icon).error(R.drawable.error).into(holder.mIvRecipe);
+//
+//            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL());
+//        } catch (Throwable throwable) {
+//            throwable.printStackTrace();
+//        }
 
     }
 
