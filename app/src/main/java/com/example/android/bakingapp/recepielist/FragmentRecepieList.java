@@ -1,6 +1,5 @@
-package com.example.android.bakingapp.recepie_list;
+package com.example.android.bakingapp.recepielist;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.android.bakingapp.Beans.Recipe;
+import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.RecipeAdapter;
@@ -79,6 +78,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ( getActivity()).setTitle(R.string.recipeList);
 
 
     }

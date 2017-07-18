@@ -1,16 +1,12 @@
 package com.example.android.bakingapp;
 
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.android.bakingapp.Beans.Recipe;
-import com.example.android.bakingapp.recepie_list.FragmentRecepieList;
+import com.example.android.bakingapp.beans.Recipe;
+import com.example.android.bakingapp.recepielist.FragmentRecepieList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener{
@@ -26,6 +22,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
                     .add(R.id.container, new FragmentRecepieList())
                     .commit();
         }
+    }
+
+    public  void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 
     @Override

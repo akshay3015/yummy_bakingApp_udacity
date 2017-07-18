@@ -2,9 +2,7 @@ package com.example.android.bakingapp;
 
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,16 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.bakingapp.Beans.Recipe;
-import com.example.android.bakingapp.Beans.Steps;
-import com.squareup.picasso.Picasso;
+import com.example.android.bakingapp.beans.Recipe;
+import com.example.android.bakingapp.beans.Steps;
 
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import wseemann.media.FFmpegMediaMetadataRetriever;
 
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {

@@ -1,8 +1,8 @@
-package com.example.android.bakingapp.recepie_list;
+package com.example.android.bakingapp.recepielist;
 
 import com.example.android.bakingapp.BasePresenter;
 import com.example.android.bakingapp.BaseView;
-import com.example.android.bakingapp.Beans.Recipe;
+import com.example.android.bakingapp.beans.Recipe;
 
 import java.util.List;
 

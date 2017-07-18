@@ -7,25 +7,41 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/tv_ingredients"
+
+
+    <ScrollView
+        android:id="@+id/sv_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="fnaskgnlkng \n ldksnaflk /jdnfkdnsf /asgkndknkgnkasdnk"/>
+        app:layout_constraintHorizontal_weight="0.8">
 
-    <com.example.android.bakingapp.custom.StatefulRecyclerView
-        android:id="@+id/rv_recipe_steps"
-        android:layout_marginTop="16dp"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:text="fnaskgnlkng \n ldksnaflk /jdnfkdnsf /asgkndknkgnkasdnk"/>
+
+    </ScrollView>
+
+
+    <Button
+        app:layout_constraintHorizontal_weight="0.2"
+        android:id="@+id/btn_cook"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ingredients">
-
-    </com.example.android.bakingapp.custom.StatefulRecyclerView>
+        android:text="@string/lets_cook"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sv_container"/>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BakingApp</string>
+    <string name="lets_cook">Let\'s Cook</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="recipeList">Recipes</string>
 </resources>

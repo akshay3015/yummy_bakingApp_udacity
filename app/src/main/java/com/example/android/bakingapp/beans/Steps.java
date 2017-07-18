@@ -1,4 +1,4 @@
-package com.example.android.bakingapp.Beans;
+package com.example.android.bakingapp.beans;
 
 import com.google.gson.annotations.SerializedName;
 

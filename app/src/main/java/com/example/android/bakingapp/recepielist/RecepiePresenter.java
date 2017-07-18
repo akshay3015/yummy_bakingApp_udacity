@@ -1,11 +1,11 @@
-package com.example.android.bakingapp.recepie_list;
+package com.example.android.bakingapp.recepielist;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 
 
-import com.example.android.bakingapp.Beans.Recipe;
+import com.example.android.bakingapp.beans.Recipe;
 
 import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.data.ApiInterface;

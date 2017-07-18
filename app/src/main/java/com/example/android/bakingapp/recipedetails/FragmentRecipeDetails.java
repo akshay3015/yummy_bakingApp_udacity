@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.android.bakingapp.Beans.Ingredients;
-import com.example.android.bakingapp.Beans.Recipe;
+
+import com.example.android.bakingapp.MainActivity;
+import com.example.android.bakingapp.beans.Ingredients;
+import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.custom.StatefulRecyclerView;
 
 import java.util.List;
 
@@ -29,8 +29,7 @@ public class FragmentRecipeDetails extends Fragment {
 
     @BindView(R.id.tv_ingredients)
     TextView mTvIngredients;
-    @BindView(R.id.rv_recipe_steps)
-    StatefulRecyclerView mRvRecipeSteps;
+
     Unbinder unbinder;
     private static final String TAG = "FragmentRecipeDetails";
     private Recipe mRecipe;
@@ -47,20 +46,26 @@ public class FragmentRecipeDetails extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ( getActivity()).setTitle(R.string.ingredients);
 
     }
 
     private void setIngredients() {
 
         List<Ingredients> ingredients = mRecipe.getIngredientsList();
-        String strIngredients = "Ingredients";
-        String fullList;
+        StringBuffer strIngredients = new StringBuffer();
+        strIngredients.append("Ingredients \n  \n");
+        int i = 0;
+
 
         for (Ingredients in : ingredients) {
+            i++;
+            strIngredients.append("\u2022" + in.getIngredient()).append("--" + in.getQuantity()).append(" " + in.getMeasure() + "\n \n ");
 
-          fullList=  strIngredients.concat("\u2022" + in.getIngredient()).concat("--" + in.getQuantity()).concat(" " + in.getMeasure() + "\n");
-            mTvIngredients.setText(fullList);
-            Log.d(TAG, "setIngredients: " + fullList);
+            if (i == ingredients.size()-1) {
+                mTvIngredients.setText(strIngredients);
+            }
+            Log.d(TAG, "setIngredients: " + strIngredients);
 
         }
 

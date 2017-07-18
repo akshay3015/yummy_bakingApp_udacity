@@ -1,6 +1,6 @@
 package com.example.android.bakingapp.data;
 
-import com.example.android.bakingapp.Beans.Recipe;
+import com.example.android.bakingapp.beans.Recipe;
 
 
 import java.util.List;
