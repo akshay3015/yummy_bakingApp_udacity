@@ -14,6 +14,7 @@ import com.example.android.bakingapp.MainActivity;
 import com.example.android.bakingapp.beans.Ingredients;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.utils.Utility;
 
 import java.util.List;
 
@@ -50,27 +51,6 @@ public class FragmentRecipeDetails extends Fragment {
 
     }
 
-    private void setIngredients() {
-
-        List<Ingredients> ingredients = mRecipe.getIngredientsList();
-        StringBuffer strIngredients = new StringBuffer();
-        strIngredients.append("Ingredients \n  \n");
-        int i = 0;
-
-
-        for (Ingredients in : ingredients) {
-            i++;
-            strIngredients.append("\u2022" + in.getIngredient()).append("--" + in.getQuantity()).append(" " + in.getMeasure() + "\n \n ");
-
-            if (i == ingredients.size()-1) {
-                mTvIngredients.setText(strIngredients);
-            }
-            Log.d(TAG, "setIngredients: " + strIngredients);
-
-        }
-
-
-    }
 
     @Override
     public void onStart() {
@@ -79,7 +59,7 @@ public class FragmentRecipeDetails extends Fragment {
         if (null != args && args.containsKey("recipe")) {
             mRecipe = args.getParcelable("recipe");
             if (null != mRecipe) {
-                setIngredients();
+                mTvIngredients.setText(Utility.setIngredients(mRecipe));
             }
 
         }
