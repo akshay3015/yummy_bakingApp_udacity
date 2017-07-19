@@ -21,7 +21,8 @@ public class RecipeDescriptionAdapter extends RecyclerView.Adapter<RecipeDescrip
 
     private List<Steps> mStepsList;
     private ItemListener myListener;
-
+    private int selectedPosition = 0;
+    private boolean isTwopane = false;
     public RecipeDescriptionAdapter(List<Steps> items, ItemListener listener) {
         mStepsList = items;
         myListener = listener;
@@ -31,6 +32,8 @@ public class RecipeDescriptionAdapter extends RecyclerView.Adapter<RecipeDescrip
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        isTwopane = parent.getContext().getResources().getBoolean(R.bool.is_two_pane);
+
         return new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recipe_steps_item, parent, false));
     }
@@ -48,6 +51,9 @@ public class RecipeDescriptionAdapter extends RecyclerView.Adapter<RecipeDescrip
            holder.mIvPlay.setVisibility(View.GONE);
         }else {
             holder.mIvPlay.setVisibility(View.VISIBLE);
+        }
+        if (selectedPosition == position && isTwopane){
+            myListener.onItemClick(mStepsList.get(0));
         }
 
 

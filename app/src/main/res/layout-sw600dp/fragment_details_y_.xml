@@ -8,13 +8,15 @@
 
     <FrameLayout
         android:id="@+id/listcontainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
 
     <FrameLayout
         android:id="@+id/detailscontainer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:layout_weight="0.5"
+      />
 
 </LinearLayout>

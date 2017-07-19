@@ -3,6 +3,7 @@ package com.example.android.bakingapp;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
@@ -21,8 +22,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
         setContentView(R.layout.activity_main);
 
        isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
-
+        Toast.makeText(this, "called onCreated from main ACTI", Toast.LENGTH_SHORT).show();
         if (savedInstanceState == null) {
+            Toast.makeText(this, "save instance in mainActivity is null", Toast.LENGTH_SHORT).show();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
                     .add(R.id.container, new FragmentRecepieList())
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
     @Override
     public void passData(Recipe recipe) {
+        Toast.makeText(this, "recreated", Toast.LENGTH_SHORT).show();
 
         if (isTwoPane){
             MasterDetailsFragment fragmentRecipeDetails = new MasterDetailsFragment();
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.container, fragmentRecipeDetails)
-                    .addToBackStack("f2")
                     .commit();
         }else {
             FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
@@ -73,16 +75,27 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
     @Override
     public void passDataToSteps(Steps steps) {
 
-
-            FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
-            Bundle b = new Bundle();
-            b.putSerializable("recipe", steps);
-            fragmentRecipeSteps.setArguments(b);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragmentRecipeSteps)
-                    .addToBackStack("f3")
-                    .commit();
+if (isTwoPane){
+    FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+    Bundle b = new Bundle();
+    b.putSerializable("recipe", steps);
+    fragmentRecipeSteps.setArguments(b);
+    getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.detailscontainer, fragmentRecipeSteps)
+            .addToBackStack("f3")
+            .commit();
+}else {
+    FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+    Bundle b = new Bundle();
+    b.putSerializable("recipe", steps);
+    fragmentRecipeSteps.setArguments(b);
+    getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.container, fragmentRecipeSteps)
+            .addToBackStack("f3")
+            .commit();
+}
 
 
     }

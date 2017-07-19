@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.MainActivity;
@@ -20,7 +19,6 @@ import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
-import com.example.android.bakingapp.recepielist.RecipeAdapter;
 import com.example.android.bakingapp.utils.Utility;
 
 import java.util.ArrayList;
@@ -62,8 +60,9 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_details_y, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
 
 
@@ -71,8 +70,13 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
-//    @OnClick(R.id.btn_cook)
+    //    @OnClick(R.id.btn_cook)
 //     void click(){
 //        callBackSteps.passDataToSteps(mRecipe);
 //    }
@@ -114,6 +118,8 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
                 mRvSteps.setLayoutManager(mLayoutManager);
                 mRvSteps.setItemAnimator(new DefaultItemAnimator());
                 mRvSteps.setAdapter(mAdapter);
+
+
             }
 
         }

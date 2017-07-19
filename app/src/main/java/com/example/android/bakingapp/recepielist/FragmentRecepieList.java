@@ -113,11 +113,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
         outState.putParcelableArrayList(RECIPE_SAVED_INSATANCE_KEY, (ArrayList<? extends Parcelable>) mRecipeList);
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-//        mRecipeList = savedInstanceState.getParcelableArrayList(RECIPE_SAVED_INSATANCE_KEY);
-    }
+
 
 
     @Override

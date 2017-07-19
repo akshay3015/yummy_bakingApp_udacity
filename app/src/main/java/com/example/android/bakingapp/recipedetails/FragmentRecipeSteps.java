@@ -61,6 +61,7 @@ public class FragmentRecipeSteps extends Fragment {
     private Steps mSteps;
     private SimpleExoPlayer recipeVideoPlayer;
     private SimpleExoPlayerView exoPlayerView;
+    private boolean isTwoPane;
 
 
     @Nullable
@@ -68,6 +69,7 @@ public class FragmentRecipeSteps extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
         unbinder = ButterKnife.bind(this, view);
+        isTwoPane = getActivity().getResources().getBoolean(R.bool.is_two_pane);
 
         initPlayer(view);
         Bundle args = getArguments();
@@ -77,7 +79,7 @@ public class FragmentRecipeSteps extends Fragment {
 
         }
         int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTwoPane) {
             mSvContainer.setVisibility(View.GONE);
             mExoplayer.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
             mExoplayer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -92,72 +94,80 @@ public class FragmentRecipeSteps extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTvStep.setText(mSteps.getDescription());
 
-        if (TextUtils.isEmpty(mSteps.getVideoURL())) {
+        if (mSteps!=null) {
+            mTvStep.setText(mSteps.getDescription());
 
-            mExoplayer.setVisibility(View.GONE);
-        } else {
-            mExoplayer.setVisibility(View.VISIBLE);
-            Uri video = Uri.parse(mSteps.getVideoURL());
-            DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), "recipes"), null);
-            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+            if (TextUtils.isEmpty(mSteps.getVideoURL())) {
 
-            MediaSource videoSource = new ExtractorMediaSource(video, dataSourceFactory, extractorsFactory, null, null);
+                mExoplayer.setVisibility(View.GONE);
+            } else {
+                mExoplayer.setVisibility(View.VISIBLE);
+                Uri video = Uri.parse(mSteps.getVideoURL());
+                DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), "recipes"), null);
+                ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
-            recipeVideoPlayer.prepare(videoSource);
+                MediaSource videoSource = new ExtractorMediaSource(video, dataSourceFactory, extractorsFactory, null, null);
 
-            recipeVideoPlayer.setPlayWhenReady(true);
+                recipeVideoPlayer.prepare(videoSource);
+
+                recipeVideoPlayer.setPlayWhenReady(true);
 
 
-            recipeVideoPlayer.addListener(new ExoPlayer.EventListener() {
-                @Override
-                public void onTimelineChanged(Timeline timeline, Object manifest) {
+                recipeVideoPlayer.addListener(new ExoPlayer.EventListener() {
+                    @Override
+                    public void onTimelineChanged(Timeline timeline, Object manifest) {
 
-                }
+                    }
 
-                @Override
-                public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+                    @Override
+                    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
 
 //                                Toast.makeText(getContext(), "Track changed" + trackSelections.length, Toast.LENGTH_SHORT).show();
 //
 
 
-                }
+                    }
 
-                @Override
-                public void onLoadingChanged(boolean isLoading) {
+                    @Override
+                    public void onLoadingChanged(boolean isLoading) {
 
-                }
+                    }
 
-                @Override
-                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
-
-                }
+                    @Override
+                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
 
-                @Override
-                public void onPlayerError(ExoPlaybackException error) {
-
-                }
-
-                @Override
-                public void onPositionDiscontinuity() {
-
-                }
-
-                @Override
-                public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
-                }
+                    }
 
 
-            });
+                    @Override
+                    public void onPlayerError(ExoPlaybackException error) {
+
+                    }
+
+                    @Override
+                    public void onPositionDiscontinuity() {
+
+                    }
+
+                    @Override
+                    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+                    }
+
+
+                });
+            }
         }
     }
 
