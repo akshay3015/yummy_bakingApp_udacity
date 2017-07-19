@@ -1,19 +1,18 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.recepielist;
 
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Recipe;
-import com.example.android.bakingapp.beans.Steps;
 
 import java.util.HashMap;
 import java.util.List;

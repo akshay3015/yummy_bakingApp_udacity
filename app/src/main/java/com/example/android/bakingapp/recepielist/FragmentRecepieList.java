@@ -19,7 +19,6 @@ import com.example.android.bakingapp.MainActivity;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.RecipeAdapter;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 

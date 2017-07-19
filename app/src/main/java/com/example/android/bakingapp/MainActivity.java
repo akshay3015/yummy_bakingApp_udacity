@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.android.bakingapp.beans.Recipe;
+import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.OnBackPressedListener;
 import com.example.android.bakingapp.recepielist.FragmentRecepieList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
+import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener{
+public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener ,FragmentRecipeDetails.DataPassToStepsListener{
     protected OnBackPressedListener onBackPressedListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
     }
 
 
+    @Override
+    public void passDataToSteps(Steps steps) {
+        FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+        Bundle b = new Bundle();
+        b.putSerializable("recipe",steps);
+        fragmentRecipeSteps.setArguments(b);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragmentRecipeSteps)
+                .addToBackStack("f3")
+                .commit();
 
-
+    }
 }
