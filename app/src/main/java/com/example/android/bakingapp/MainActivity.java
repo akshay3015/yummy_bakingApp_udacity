@@ -14,10 +14,13 @@ import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 
 public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener ,FragmentRecipeDetails.DataPassToStepsListener{
     protected OnBackPressedListener onBackPressedListener;
+    private boolean isTwoPane;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
 
         if (savedInstanceState == null) {
             FragmentManager manager = getSupportFragmentManager();
@@ -33,15 +36,28 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
     @Override
     public void passData(Recipe recipe) {
-        FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
-        Bundle b = new Bundle();
-        b.putParcelable("recipe",recipe);
-        fragmentRecipeDetails.setArguments(b);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container,fragmentRecipeDetails)
-                .addToBackStack("f2")
-                .commit();
+
+        if (isTwoPane){
+            MasterDetailsFragment fragmentRecipeDetails = new MasterDetailsFragment();
+            Bundle b = new Bundle();
+            b.putParcelable("recipe", recipe);
+            fragmentRecipeDetails.setArguments(b);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragmentRecipeDetails)
+                    .addToBackStack("f2")
+                    .commit();
+        }else {
+            FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
+            Bundle b = new Bundle();
+            b.putParcelable("recipe", recipe);
+            fragmentRecipeDetails.setArguments(b);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragmentRecipeDetails)
+                    .addToBackStack("f2")
+                    .commit();
+        }
     }
 
 
@@ -56,15 +72,18 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
     @Override
     public void passDataToSteps(Steps steps) {
-        FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
-        Bundle b = new Bundle();
-        b.putSerializable("recipe",steps);
-        fragmentRecipeSteps.setArguments(b);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container,fragmentRecipeSteps)
-                .addToBackStack("f3")
-                .commit();
+
+
+            FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+            Bundle b = new Bundle();
+            b.putSerializable("recipe", steps);
+            fragmentRecipeSteps.setArguments(b);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragmentRecipeSteps)
+                    .addToBackStack("f3")
+                    .commit();
+
 
     }
 }

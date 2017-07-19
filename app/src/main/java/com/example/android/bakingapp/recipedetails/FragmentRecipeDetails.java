@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.MainActivity;
@@ -46,6 +47,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private Recipe mRecipe;
     private DataPassToStepsListener callBackSteps;
     private List<Steps> mStepsList;
+    boolean isTwoPane;
 
     @Override
     public void onItemClick(Steps item) {
@@ -63,6 +65,8 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         unbinder = ButterKnife.bind(this, view);
         ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
+
+
 
         return view;
     }
