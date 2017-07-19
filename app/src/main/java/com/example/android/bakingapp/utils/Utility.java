@@ -1,5 +1,8 @@
 package com.example.android.bakingapp.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.example.android.bakingapp.beans.Ingredients;
@@ -35,5 +38,16 @@ public class Utility {
         }
 
         return strIngredients;
+    }
+
+    public static boolean isNetworkAvailble(Context ctx){
+        ConnectivityManager cm =
+                (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        return isConnected;
     }
 }

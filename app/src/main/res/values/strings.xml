@@ -3,4 +3,5 @@
     <string name="lets_cook">Let\'s Cook</string>
     <string name="ingredients">Ingredients</string>
     <string name="recipeList">Recipes</string>
+    <string name="no_internet">No Internet Connection!</string>
 </resources>

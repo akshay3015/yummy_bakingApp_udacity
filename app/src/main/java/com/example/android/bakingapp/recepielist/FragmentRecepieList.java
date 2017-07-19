@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
+import com.example.android.bakingapp.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +68,15 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
         } else {
             Toast.makeText(getContext(), "not saved", Toast.LENGTH_SHORT).show();
             mRecipeList.clear();
-            mRecepiePresenter.fetchRecipesFromServre();
+            if (Utility.isNetworkAvailble(getContext())) {
+                mRecepiePresenter.fetchRecipesFromServre();
+            }else {
+                Toast.makeText(getContext(),R.string.no_internet, Toast.LENGTH_SHORT).show();
+            }
         }
 
         mAdapter = new RecipeAdapter(mRecipeList, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(),getContext().getResources().getInteger(R.integer.columns));
         mRvFragmentRecipes.setLayoutManager(mLayoutManager);
         mRvFragmentRecipes.setItemAnimator(new DefaultItemAnimator());
         mRvFragmentRecipes.setAdapter(mAdapter);

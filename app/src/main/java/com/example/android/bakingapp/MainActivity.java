@@ -13,15 +13,16 @@ import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener ,FragmentRecipeDetails.DataPassToStepsListener{
+public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener {
     protected OnBackPressedListener onBackPressedListener;
     private boolean isTwoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
+        isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
         Toast.makeText(this, "called onCreated from main ACTI", Toast.LENGTH_SHORT).show();
         if (savedInstanceState == null) {
             Toast.makeText(this, "save instance in mainActivity is null", Toast.LENGTH_SHORT).show();
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
                     .commit();
         }
     }
+
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         this.onBackPressedListener = onBackPressedListener;
     }
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
     public void passData(Recipe recipe) {
         Toast.makeText(this, "recreated", Toast.LENGTH_SHORT).show();
 
-        if (isTwoPane){
+        if (isTwoPane) {
             MasterDetailsFragment fragmentRecipeDetails = new MasterDetailsFragment();
             Bundle b = new Bundle();
             b.putParcelable("recipe", recipe);
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
                     .beginTransaction()
                     .replace(R.id.container, fragmentRecipeDetails)
                     .commit();
-        }else {
+        } else {
             FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
             Bundle b = new Bundle();
             b.putParcelable("recipe", recipe);
@@ -75,27 +77,27 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
     @Override
     public void passDataToSteps(Steps steps) {
 
-if (isTwoPane){
-    FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
-    Bundle b = new Bundle();
-    b.putSerializable("recipe", steps);
-    fragmentRecipeSteps.setArguments(b);
-    getSupportFragmentManager()
-            .beginTransaction()
-            .replace(R.id.detailscontainer, fragmentRecipeSteps)
-            .addToBackStack("f3")
-            .commit();
-}else {
-    FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
-    Bundle b = new Bundle();
-    b.putSerializable("recipe", steps);
-    fragmentRecipeSteps.setArguments(b);
-    getSupportFragmentManager()
-            .beginTransaction()
-            .replace(R.id.container, fragmentRecipeSteps)
-            .addToBackStack("f3")
-            .commit();
-}
+        if (isTwoPane) {
+            FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+            Bundle b = new Bundle();
+            b.putSerializable("recipe", steps);
+            fragmentRecipeSteps.setArguments(b);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.detailscontainer, fragmentRecipeSteps)
+                    .addToBackStack("f3")
+                    .commit();
+        } else {
+            FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+            Bundle b = new Bundle();
+            b.putSerializable("recipe", steps);
+            fragmentRecipeSteps.setArguments(b);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragmentRecipeSteps)
+                    .addToBackStack("f3")
+                    .commit();
+        }
 
 
     }

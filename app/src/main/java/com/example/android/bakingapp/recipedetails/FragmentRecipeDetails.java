@@ -45,7 +45,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private Recipe mRecipe;
     private DataPassToStepsListener callBackSteps;
     private List<Steps> mStepsList;
-    boolean isTwoPane;
+
 
     @Override
     public void onItemClick(Steps item) {
@@ -76,10 +76,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         setRetainInstance(true);
     }
 
-    //    @OnClick(R.id.btn_cook)
-//     void click(){
-//        callBackSteps.passDataToSteps(mRecipe);
-//    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
