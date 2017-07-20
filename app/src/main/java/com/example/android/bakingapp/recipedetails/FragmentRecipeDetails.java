@@ -1,6 +1,9 @@
 package com.example.android.bakingapp.recipedetails;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +12,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.MainActivity;
 import com.example.android.bakingapp.R;
@@ -20,6 +28,8 @@ import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 import com.example.android.bakingapp.utils.Utility;
+import com.example.android.bakingapp.widget.RecipeIngredientsWidget;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +55,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private Recipe mRecipe;
     private DataPassToStepsListener callBackSteps;
     private List<Steps> mStepsList;
+    private RecipeIngredientsWidget mRecipeIngredientsWidget;
 
 
     @Override
@@ -62,9 +73,8 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details_y, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        mRecipeIngredientsWidget = new RecipeIngredientsWidget();
         ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
-
 
 
         return view;
@@ -74,8 +84,41 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_widget) {
+            //Do whatever you want to do
+            Toast.makeText(getContext(), "add to widget", Toast.LENGTH_SHORT).show();
+            Utility.saveSharedPreferencesLogList(getContext(), mRecipe.getIngredientsList());
+            Toast.makeText(getContext(), ""+Utility.loadSharedPreferencesLogList(getContext()).size(), Toast.LENGTH_SHORT).show();
+//            mRecipeIngredientsWidget.updateWidgetListView(getContext(), R.xml.recipe_ingredients_widget_info);
+            Intent intent = new Intent(getContext(),RecipeIngredientsWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+// Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+// since it seems the onUpdate() is only fired on that:
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+            int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
+                    new ComponentName(getContext(), RecipeIngredientsWidget.class));
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
+            getContext().sendBroadcast(intent);
+
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.listViewWidget);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);  // Use filter.xml from step 1
+    }
 
 
     @Override
@@ -90,6 +133,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         super.onAttach(context);
         // Make sure that container activity implement the callback interface
         try {
+
             callBackSteps = (DataPassToStepsListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()

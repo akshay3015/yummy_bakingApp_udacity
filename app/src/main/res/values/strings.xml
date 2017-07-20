@@ -4,4 +4,8 @@
     <string name="ingredients">Ingredients</string>
     <string name="recipeList">Recipes</string>
     <string name="no_internet">No Internet Connection!</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_string">Recipe ingredients will display here when you add recipe to widget</string>
+    <string name="add_to_widegt">Add to widget</string>
 </resources>
