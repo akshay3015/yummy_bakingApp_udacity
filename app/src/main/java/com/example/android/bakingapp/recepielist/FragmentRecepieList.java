@@ -49,9 +49,10 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     private List<Recipe> mRecipeList;
     private DataPassListener callBack;
 
-    public interface DataPassListener{
-         void passData(Recipe recipe);
+    public interface DataPassListener {
+        void passData(Recipe recipe);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,26 +62,24 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
         mRecipeList = new ArrayList<>();
         if (null != savedInstanceState) {
 
-            Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
             mRecipeList = savedInstanceState.getParcelableArrayList(RECIPE_SAVED_INSATANCE_KEY);
 
 
         } else {
-            Toast.makeText(getContext(), "not saved", Toast.LENGTH_SHORT).show();
             mRecipeList.clear();
             if (Utility.isNetworkAvailble(getContext())) {
                 mRecepiePresenter.fetchRecipesFromServre();
-            }else {
-                Toast.makeText(getContext(),R.string.no_internet, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             }
         }
 
         mAdapter = new RecipeAdapter(mRecipeList, this);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(),getContext().getResources().getInteger(R.integer.columns));
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), getContext().getResources().getInteger(R.integer.columns));
         mRvFragmentRecipes.setLayoutManager(mLayoutManager);
         mRvFragmentRecipes.setItemAnimator(new DefaultItemAnimator());
         mRvFragmentRecipes.setAdapter(mAdapter);
-        ((MainActivity)  getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
+        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
 
         return view;
     }
@@ -88,7 +87,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ( getActivity()).setTitle(R.string.recipeList);
+        (getActivity()).setTitle(R.string.recipeList);
 
 
     }
@@ -98,7 +97,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
         super.onAttach(context);
         // Make sure that container activity implement the callback interface
         try {
-            callBack = (DataPassListener)context;
+            callBack = (DataPassListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement DataPassListener");
@@ -120,8 +119,6 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     }
 
 
-
-
     @Override
     public void setPresenter(RecipesListContract.Presenter presenter) {
         this.recipeListPresenter = presenter;
@@ -129,17 +126,10 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
 
     @Override
     public void showRecipesList(List<Recipe> recipeList) {
-
-
-
         mRecipeList = recipeList;
-        if (BuildConfig.DEBUG) {
-            Toast.makeText(getContext(), "Size of data interface" + mRecipeList.size(), Toast.LENGTH_SHORT).show();
-        }
         mAdapter = new RecipeAdapter(mRecipeList, this);
         mRvFragmentRecipes.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-
     }
 
     @Override

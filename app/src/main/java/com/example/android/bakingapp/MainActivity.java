@@ -23,9 +23,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
         setContentView(R.layout.activity_main);
 
         isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
-        Toast.makeText(this, "called onCreated from main ACTI", Toast.LENGTH_SHORT).show();
         if (savedInstanceState == null) {
-            Toast.makeText(this, "save instance in mainActivity is null", Toast.LENGTH_SHORT).show();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
                     .add(R.id.container, new FragmentRecepieList())
@@ -40,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
     @Override
     public void passData(Recipe recipe) {
-        Toast.makeText(this, "recreated", Toast.LENGTH_SHORT).show();
 
         if (isTwoPane) {
             MasterDetailsFragment fragmentRecipeDetails = new MasterDetailsFragment();
