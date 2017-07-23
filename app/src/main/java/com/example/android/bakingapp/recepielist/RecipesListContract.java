@@ -22,7 +22,6 @@ public interface RecipesListContract {
 
         void showError(String errorMsg);
 
-        void showRecipeDetailsUI(int recipeId);
 
 
     }
@@ -30,8 +29,8 @@ public interface RecipesListContract {
 
     interface Presenter extends BasePresenter {
 
-        void fetchRecipesFromServre();
-        void onItemSelected(int position);
+        void fetchRecipesFromServer();
+
 
 
     }

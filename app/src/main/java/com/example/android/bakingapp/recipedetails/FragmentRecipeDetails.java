@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,12 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.android.bakingapp.MainActivity;
-import com.example.android.bakingapp.MasterDetailsFragment;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
@@ -31,11 +27,8 @@ import com.example.android.bakingapp.custom.BaseBackPressedListener;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 import com.example.android.bakingapp.utils.Utility;
 import com.example.android.bakingapp.widget.RecipeIngredientsWidget;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -48,7 +41,6 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
 
     @BindView(R.id.tv_ingredients)
     TextView mTvIngredients;
-
     Unbinder unbinder;
     private static final String TAG = "FragmentRecipeDetails";
     @BindView(R.id.rv_steps)
@@ -59,16 +51,15 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private List<Steps> mStepsList;
 
 
-
     @Override
     public void onItemClick(Steps item) {
 
-            callBackSteps.passDataToSteps(item, null);
+        callBackSteps.passDataToSteps(item);
 
     }
 
     public interface DataPassToStepsListener {
-        void passDataToSteps(Steps steps, FragmentManager manager);
+        void passDataToSteps(Steps steps);
     }
 
     @Nullable
@@ -96,8 +87,8 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         int id = item.getItemId();
         if (id == R.id.action_widget) {
 
-            Utility.saveSharedPreferencesLogList(getContext(), mRecipe.getIngredientsList());
-
+            Utility.saveSharedPreferencesRecipeList(getContext(), mRecipe.getIngredientsList());
+            Utility.saveSharedPreferencesTitle(getContext(), mRecipe.getName());
             Intent intent = new Intent(getContext(), RecipeIngredientsWidget.class);
 
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);

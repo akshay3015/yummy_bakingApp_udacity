@@ -1,11 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#09C"
+                xmlns:tool="http://schemas.android.com/tools"
+                android:background="@android:color/white"
                 android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/tv_recipe_name_widget"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:background="#09C"
+        android:text="recipe"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        />
 
     <!-- ListView to be shown on widget -->
     <ListView
+        android:layout_marginTop="50dp"
         android:id="@+id/listViewWidget"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -17,7 +31,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/empty_string"
-        android:textColor="#ffffff"
+        android:textColor="#000"
         android:textSize="20sp"
         android:visibility="gone" />-->
 

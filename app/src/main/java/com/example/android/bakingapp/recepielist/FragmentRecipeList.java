@@ -35,7 +35,7 @@ import butterknife.Unbinder;
  * Created by akshayshahane on 16/07/17.
  */
 
-public class FragmentRecepieList extends Fragment implements RecipesListContract.View, RecipeAdapter.ItemListener {
+public class FragmentRecipeList extends Fragment implements RecipesListContract.View, RecipeAdapter.ItemListener {
 
     @BindView(R.id.pb)
     ProgressBar mPb;
@@ -43,11 +43,12 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     StatefulRecyclerView mRvFragmentRecipes;
     Unbinder unbinder;
     private RecipesListContract.Presenter recipeListPresenter;
-    private RecepiePresenter mRecepiePresenter;
+    private RecipePresenter mRecepePresenter;
     private RecipeAdapter mAdapter;
-    private static String RECIPE_SAVED_INSATANCE_KEY = "recipesList";
+    private static String RECIPE_SAVED_INSTANCE_KEY = "recipesList";
     private List<Recipe> mRecipeList;
     private DataPassListener callBack;
+
 
     public interface DataPassListener {
         void passData(Recipe recipe);
@@ -58,17 +59,17 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        mRecepiePresenter = new RecepiePresenter(this);
+        mRecepePresenter = new RecipePresenter(this);
         mRecipeList = new ArrayList<>();
         if (null != savedInstanceState) {
 
-            mRecipeList = savedInstanceState.getParcelableArrayList(RECIPE_SAVED_INSATANCE_KEY);
+            mRecipeList = savedInstanceState.getParcelableArrayList(RECIPE_SAVED_INSTANCE_KEY);
 
 
         } else {
             mRecipeList.clear();
             if (Utility.isNetworkAvailble(getContext())) {
-                mRecepiePresenter.fetchRecipesFromServre();
+                mRecepePresenter.fetchRecipesFromServer();
             } else {
                 Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
             }
@@ -115,7 +116,7 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(RECIPE_SAVED_INSATANCE_KEY, (ArrayList<? extends Parcelable>) mRecipeList);
+        outState.putParcelableArrayList(RECIPE_SAVED_INSTANCE_KEY, (ArrayList<? extends Parcelable>) mRecipeList);
     }
 
 
@@ -152,18 +153,12 @@ public class FragmentRecepieList extends Fragment implements RecipesListContract
 
     }
 
-    @Override
-    public void showRecipeDetailsUI(int recipeId) {
-
-    }
 
     @Override
     public void onItemClick(Recipe item) {
 
-        if (BuildConfig.DEBUG) {
-            Toast.makeText(getContext(), "" + item.getName(), Toast.LENGTH_SHORT).show();
-            callBack.passData(item);
-        }
+        callBack.passData(item);
+
 
     }
 }

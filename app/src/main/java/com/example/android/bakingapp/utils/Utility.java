@@ -22,6 +22,8 @@ import java.util.List;
 public class Utility {
 
     public static final String KEY_INGREDIENTS_WIDGET = "Ingredients";
+    public static final String KEY_RECIPE_NAME = "RecipeTitle";
+
     public static final String KEY_INGREDIENTS_WIDGET_JSON = "IngredientsJson";
 
     public static StringBuffer setIngredients(Recipe mRecipe) {
@@ -59,17 +61,43 @@ public class Utility {
         return isConnected;
     }
 
-    public static void saveSharedPreferencesLogList(Context context, List<Ingredients> ingredientsList) {
+    public static void saveSharedPreferencesRecipeList(Context context, List<Ingredients> ingredientsList) {
         SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
+
         String json = gson.toJson(ingredientsList);
         prefsEditor.putString(KEY_INGREDIENTS_WIDGET_JSON, json);
         prefsEditor.commit();
     }
 
 
-    public static List<Ingredients> loadSharedPreferencesLogList(Context context) {
+    public static void saveSharedPreferencesTitle(Context context, String strTitle) {
+        SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString(KEY_RECIPE_NAME, strTitle);
+        prefsEditor.commit();
+    }
+
+
+
+    public static String loadSharedPreferencesRecipeTitle(Context context) {
+        String str = "";
+        SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
+
+        String json = mPrefs.getString(KEY_RECIPE_NAME, "");
+        if (json.isEmpty()) {
+           return str;
+        } else {
+            str = json;
+          return str;
+        }
+
+    }
+
+
+
+    public static List<Ingredients> loadSharedPreferencesRecipeList(Context context) {
         List<Ingredients> ingredientsList;
         SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
         Gson gson = new Gson();

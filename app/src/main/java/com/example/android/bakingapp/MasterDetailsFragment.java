@@ -65,10 +65,10 @@ private Recipe mRecipe;
 
 
     @Override
-    public void changeFramentInStepsFragment(Steps steps) {
+    public void changeFragmentInStepsFragment(Steps steps) {
         FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
         Bundle b = new Bundle();
-        b.putSerializable("recipe", steps);
+        b.putSerializable("steps", steps);
         fragmentRecipeSteps.setArguments(b);
         getChildFragmentManager()
                 .beginTransaction()

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.Toast;
-
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Ingredients;
 import com.example.android.bakingapp.utils.Utility;
@@ -34,14 +32,14 @@ public class IngredientsListProvider implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onCreate() {
 
-        mIngredientsList = Utility.loadSharedPreferencesLogList(ctxt);
+        mIngredientsList = Utility.loadSharedPreferencesRecipeList(ctxt);
 
 
     }
 
     @Override
     public void onDataSetChanged() {
-        mIngredientsList = Utility.loadSharedPreferencesLogList(ctxt);
+        mIngredientsList = Utility.loadSharedPreferencesRecipeList(ctxt);
 
     }
 

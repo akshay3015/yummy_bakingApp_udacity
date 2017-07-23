@@ -73,8 +73,8 @@ public class FragmentRecipeSteps extends Fragment {
 
         initPlayer(view);
         Bundle args = getArguments();
-        if (null != args && args.containsKey("recipe")) {
-            mSteps = (Steps) args.getSerializable("recipe");
+        if (null != args && args.containsKey("steps")) {
+            mSteps = (Steps) args.getSerializable("steps");
 
 
         }
@@ -233,16 +233,5 @@ public class FragmentRecipeSteps extends Fragment {
         recipeVideoPlayer.release();
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//
-//        // Checks the orientation of the screen
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//
-//
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//
-//        }
-//    }
+
 }

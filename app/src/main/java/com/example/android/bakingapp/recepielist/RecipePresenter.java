@@ -22,16 +22,17 @@ import retrofit2.Response;
  * Created by akshayshahane on 16/07/17.
  */
 
-public class RecepiePresenter implements RecipesListContract.Presenter {
-    private static final String TAG = "RecepiePresenter";
+public class RecipePresenter implements RecipesListContract.Presenter {
+    private static final String TAG = "RecipePresenter";
     private RecipesListContract.View mView;
     List<Recipe> recipeList;
 
-    public RecepiePresenter(@NonNull RecipesListContract.View view) {
+    public RecipePresenter(@NonNull RecipesListContract.View view) {
         mView = view;
         mView.setPresenter(this);
         recipeList = new ArrayList<>();
     }
+
 
     @Override
     public void start() {
@@ -39,7 +40,7 @@ public class RecepiePresenter implements RecipesListContract.Presenter {
     }
 
     @Override
-    public void fetchRecipesFromServre() {
+    public void fetchRecipesFromServer() {
         mView.showProgressBar();
         recipeList.clear();
 
@@ -75,8 +76,5 @@ public class RecepiePresenter implements RecipesListContract.Presenter {
 
     }
 
-    @Override
-    public void onItemSelected(int position) {
 
-    }
 }

@@ -1,11 +1,10 @@
 package com.example.android.bakingapp.custom;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.bakingapp.MasterDetailsFragment;
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.recepielist.FragmentRecepieList;
+import com.example.android.bakingapp.recepielist.FragmentRecipeList;
 
 /**
  * Created by akshayshahane on 18/07/17.
@@ -24,7 +23,7 @@ public class BaseBackPressedListener implements OnBackPressedListener {
             activity.getSupportFragmentManager()
                     .beginTransaction()
                     .remove(new MasterDetailsFragment())
-                    .replace(R.id.container, new FragmentRecepieList())
+                    .replace(R.id.container, new FragmentRecipeList())
                     .commit();
 
         }else {

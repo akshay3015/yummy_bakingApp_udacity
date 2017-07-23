@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.utils.Utility;
 
 /**
  * Implementation of App Widget functionality.
@@ -20,9 +21,7 @@ public class RecipeIngredientsWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        Toast.makeText(context, "on update widget Provider", Toast.LENGTH_SHORT).show();
         for (int id : appWidgetIds) {
-            Toast.makeText(context, "on update widget Provider  id > 0", Toast.LENGTH_SHORT).show();
 
             updateWidgetListView(context, appWidgetManager, id);
         }
@@ -33,9 +32,10 @@ public class RecipeIngredientsWidget extends AppWidgetProvider {
                                             int appWidgetId) {
 
         //which layout to show on widget
+
         RemoteViews remoteViews = new RemoteViews(
                 context.getPackageName(), R.layout.recipe_ingredients_widget);
-
+        remoteViews.setTextViewText(R.id.tv_recipe_name_widget, Utility.loadSharedPreferencesRecipeTitle(context));
 
         //setting adapter to listview of the widget
         remoteViews.setRemoteAdapter(R.id.listViewWidget,

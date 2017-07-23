@@ -18,6 +18,7 @@
         tool:text="sugar"
         android:gravity="center_vertical|start"
         android:padding="10dp"
+        android:textColor="@android:color/black"
         />
     <TextView
         android:id="@+id/tv_widget_quantity"
@@ -27,6 +28,7 @@
         tool:text="200GM"
         android:gravity="end|center_vertical"
         android:padding="10dp"
+        android:textColor="@android:color/black"
         />
     </LinearLayout>
 

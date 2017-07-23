@@ -1,22 +1,18 @@
 package com.example.android.bakingapp;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.OnBackPressedListener;
-import com.example.android.bakingapp.recepielist.FragmentRecepieList;
+import com.example.android.bakingapp.recepielist.FragmentRecipeList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 
-import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener {
+public class MainActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener {
     protected OnBackPressedListener onBackPressedListener;
     private boolean isTwoPane;
     private changeFragment mChangeFragment;
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
         if (savedInstanceState == null) {
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
-                    .add(R.id.container, new FragmentRecepieList())
+                    .add(R.id.container, new FragmentRecipeList())
                     .addToBackStack("f1")
                     .commit();
         }
@@ -73,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
 
     interface changeFragment{
-        void changeFramentInStepsFragment(Steps steps);
+        void changeFragmentInStepsFragment(Steps steps);
     }
 
 
@@ -87,15 +83,15 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
 
     @Override
-    public void passDataToSteps(Steps steps, FragmentManager manager) {
+    public void passDataToSteps(Steps steps) {
 
         if (isTwoPane) {
-            mChangeFragment.changeFramentInStepsFragment(steps);
+            mChangeFragment.changeFragmentInStepsFragment(steps);
 
         } else {
             FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
             Bundle b = new Bundle();
-            b.putSerializable("recipe", steps);
+            b.putSerializable("steps", steps);
             fragmentRecipeSteps.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()

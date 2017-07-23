@@ -54,7 +54,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 //        try {
 //            List<Steps> mStepList = myItems.get(position).getStepsList();
 ////            Bitmap bitmap = retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString());
-////            Picasso.with(holder.mIvRecipe.getContext()).load(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL()).placeholder(R.drawable.leak_canary_icon).error(R.drawable.error).into(holder.mIvRecipe);
 //
 //            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL());
 //        } catch (Throwable throwable) {
@@ -102,6 +101,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     }
 
 
+    // TODO : CREATE IMAGE FROM VIDEO URL FIND A EFFICIENT WAY LOAD BITMAP
     public static Bitmap retriveVideoFrameFromVideo(String videoPath) throws Throwable
     {
         Bitmap bitmap = null;
