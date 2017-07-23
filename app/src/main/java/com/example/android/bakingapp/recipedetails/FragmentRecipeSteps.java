@@ -1,5 +1,6 @@
 package com.example.android.bakingapp.recipedetails;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Steps;
+import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -62,6 +65,7 @@ public class FragmentRecipeSteps extends Fragment {
     private SimpleExoPlayer recipeVideoPlayer;
     private SimpleExoPlayerView exoPlayerView;
     private boolean isTwoPane;
+    private ShowOrHideBackButtonInActionBar callBackActionbar;
 
 
     @Nullable
@@ -83,7 +87,7 @@ public class FragmentRecipeSteps extends Fragment {
             mSvContainer.setVisibility(View.GONE);
             mExoplayer.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
             mExoplayer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-            getActivity().getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -98,13 +102,14 @@ public class FragmentRecipeSteps extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (mSteps!=null) {
+        callBackActionbar.showOrHide(true);
+        if (mSteps != null) {
             mTvStep.setText(mSteps.getDescription());
 
             if (TextUtils.isEmpty(mSteps.getVideoURL())) {
@@ -171,6 +176,31 @@ public class FragmentRecipeSteps extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Make sure that container activity implement the callback interface
+        try {
+            callBackActionbar = (ShowOrHideBackButtonInActionBar) context;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement DataPassListener");
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home)
+        {
+            getActivity().onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initPlayer(View v) {
         // Exoplayer

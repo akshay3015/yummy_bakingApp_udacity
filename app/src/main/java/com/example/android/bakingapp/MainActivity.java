@@ -7,12 +7,13 @@ import android.os.Bundle;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.OnBackPressedListener;
+import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.recepielist.FragmentRecipeList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener {
+public class MainActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener, ShowOrHideBackButtonInActionBar{
     protected OnBackPressedListener onBackPressedListener;
     private boolean isTwoPane;
     private changeFragment mChangeFragment;
@@ -21,8 +22,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
         if (savedInstanceState == null) {
             FragmentManager manager = getSupportFragmentManager();
@@ -33,8 +32,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
         }
     }
 
-    public void setChangeFragment(changeFragment changeFragmentCall){
-        this.mChangeFragment =changeFragmentCall;
+
+
+    public void setChangeFragment(changeFragment changeFragmentCall) {
+        this.mChangeFragment = changeFragmentCall;
     }
 
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
@@ -67,8 +68,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
         }
     }
 
+    @Override
+    public void showOrHide(Boolean b) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(b);
+    }
 
-    interface changeFragment{
+
+    interface changeFragment {
         void changeFragmentInStepsFragment(Steps steps);
     }
 

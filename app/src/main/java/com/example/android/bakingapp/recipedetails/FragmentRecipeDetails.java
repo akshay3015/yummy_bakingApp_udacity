@@ -24,6 +24,7 @@ import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
+import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 import com.example.android.bakingapp.utils.Utility;
 import com.example.android.bakingapp.widget.RecipeIngredientsWidget;
@@ -49,7 +50,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private Recipe mRecipe;
     private DataPassToStepsListener callBackSteps;
     private List<Steps> mStepsList;
-
+    private ShowOrHideBackButtonInActionBar callBackActionbar;
 
     @Override
     public void onItemClick(Steps item) {
@@ -107,6 +108,11 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
             return true;
         }
 
+        if (id== android.R.id.home)
+        {
+            getActivity().onBackPressed();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -119,6 +125,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        callBackActionbar.showOrHide(true);
 
 
     }
@@ -128,6 +135,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         super.onAttach(context);
         // Make sure that container activity implement the callback interface
         try {
+            callBackActionbar = (ShowOrHideBackButtonInActionBar) context;
 
             callBackSteps = (DataPassToStepsListener) context;
         } catch (ClassCastException e) {

@@ -21,6 +21,7 @@ import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.BuildConfig;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
+import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 import com.example.android.bakingapp.utils.Utility;
 
@@ -48,6 +49,7 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
     private static String RECIPE_SAVED_INSTANCE_KEY = "recipesList";
     private List<Recipe> mRecipeList;
     private DataPassListener callBack;
+    private ShowOrHideBackButtonInActionBar callBackActionbar;
 
 
     public interface DataPassListener {
@@ -89,6 +91,7 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         (getActivity()).setTitle(R.string.recipeList);
+        callBackActionbar.showOrHide(false);
 
 
     }
@@ -99,6 +102,7 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
         // Make sure that container activity implement the callback interface
         try {
             callBack = (DataPassListener) context;
+            callBackActionbar = (ShowOrHideBackButtonInActionBar) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement DataPassListener");
@@ -111,6 +115,7 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
         unbinder.unbind();
 
     }
+
 
 
     @Override
