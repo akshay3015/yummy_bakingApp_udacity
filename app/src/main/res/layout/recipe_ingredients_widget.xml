@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:textSize="20sp"
         android:padding="10dp"
-        android:background="#09C"
+        android:background="@color/colorPrimary"
         android:text="recipe"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -19,6 +19,7 @@
 
     <!-- ListView to be shown on widget -->
     <ListView
+        android:divider="@color/divider"
         android:layout_marginTop="50dp"
         android:id="@+id/listViewWidget"
         android:layout_width="match_parent"
