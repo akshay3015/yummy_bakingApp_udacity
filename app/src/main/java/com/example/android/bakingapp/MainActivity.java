@@ -19,11 +19,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener {
     protected OnBackPressedListener onBackPressedListener;
     private boolean isTwoPane;
+    private changeFragment mChangeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
         if (savedInstanceState == null) {
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
                     .addToBackStack("f1")
                     .commit();
         }
+    }
+
+    public void setChangeFragment(changeFragment changeFragmentCall){
+        this.mChangeFragment =changeFragmentCall;
     }
 
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
@@ -66,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
     }
 
 
+    interface changeFragment{
+        void changeFramentInStepsFragment(Steps steps);
+    }
+
+
     @Override
     public void onBackPressed() {
         if (onBackPressedListener != null)
@@ -79,16 +90,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
     public void passDataToSteps(Steps steps, FragmentManager manager) {
 
         if (isTwoPane) {
-            FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
-            Bundle b = new Bundle();
-            b.putSerializable("recipe", steps);
-            fragmentRecipeSteps.setArguments(b);
+            mChangeFragment.changeFramentInStepsFragment(steps);
 
-            manager
-                    .beginTransaction()
-                    .replace(R.id.detailscontainer, fragmentRecipeSteps)
-                    .addToBackStack("f3")
-                    .commit();
         } else {
             FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
             Bundle b = new Bundle();

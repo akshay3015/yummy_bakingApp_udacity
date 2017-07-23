@@ -62,11 +62,9 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
 
     @Override
     public void onItemClick(Steps item) {
-        if (getContext().getResources().getBoolean(R.bool.is_two_pane)) {
-            callBackSteps.passDataToSteps(item, this.getChildFragmentManager());
-        }else {
+
             callBackSteps.passDataToSteps(item, null);
-        }
+
     }
 
     public interface DataPassToStepsListener {
