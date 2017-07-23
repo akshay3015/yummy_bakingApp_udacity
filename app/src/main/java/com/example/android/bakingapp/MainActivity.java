@@ -1,5 +1,6 @@
 package com.example.android.bakingapp;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import com.example.android.bakingapp.custom.OnBackPressedListener;
 import com.example.android.bakingapp.recepielist.FragmentRecepieList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentRecepieList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener {
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.container, fragmentRecipeDetails)
+                    .addToBackStack("f4")
                     .commit();
         } else {
             FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
@@ -72,14 +76,15 @@ public class MainActivity extends AppCompatActivity implements FragmentRecepieLi
 
 
     @Override
-    public void passDataToSteps(Steps steps) {
+    public void passDataToSteps(Steps steps, FragmentManager manager) {
 
         if (isTwoPane) {
             FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
             Bundle b = new Bundle();
             b.putSerializable("recipe", steps);
             fragmentRecipeSteps.setArguments(b);
-            getSupportFragmentManager()
+
+            manager
                     .beginTransaction()
                     .replace(R.id.detailscontainer, fragmentRecipeSteps)
                     .addToBackStack("f3")

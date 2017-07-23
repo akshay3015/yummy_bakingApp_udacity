@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bakingapp.MainActivity;
+import com.example.android.bakingapp.MasterDetailsFragment;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
@@ -60,12 +62,15 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
 
     @Override
     public void onItemClick(Steps item) {
-        callBackSteps.passDataToSteps(item);
-
+        if (getContext().getResources().getBoolean(R.bool.is_two_pane)) {
+            callBackSteps.passDataToSteps(item, this.getChildFragmentManager());
+        }else {
+            callBackSteps.passDataToSteps(item, null);
+        }
     }
 
     public interface DataPassToStepsListener {
-        void passDataToSteps(Steps steps);
+        void passDataToSteps(Steps steps, FragmentManager manager);
     }
 
     @Nullable

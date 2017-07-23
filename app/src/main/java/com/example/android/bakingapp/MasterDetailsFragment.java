@@ -3,6 +3,7 @@ package com.example.android.bakingapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,13 @@ private Recipe mRecipe;
             mRecipe = args.getParcelable("recipe");
 
             if (savedInstanceState == null) {
+
+
                 FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
                 Bundle b = new Bundle();
                 b.putParcelable("recipe", mRecipe);
                 fragmentRecipeDetails.setArguments(b);
-                getFragmentManager()
+                getChildFragmentManager()
                         .beginTransaction()
                         .add(R.id.listcontainer, fragmentRecipeDetails)
                         .commit();
@@ -51,9 +54,11 @@ private Recipe mRecipe;
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putBoolean("isInTwoPane",true);
-//    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isInTwoPane",true);
+    }
+
+
 }
