@@ -1,5 +1,8 @@
 package com.example.android.bakingapp;
 
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +14,24 @@ import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.recepielist.FragmentRecipeList;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
+import com.example.android.bakingapp.testing.RecipesIdlingResource;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener, ShowOrHideBackButtonInActionBar{
     protected OnBackPressedListener onBackPressedListener;
     private boolean isTwoPane;
     private changeFragment mChangeFragment;
+    @Nullable
+    private RecipesIdlingResource mRecipesIdlingResource;
+
+    @VisibleForTesting
+    public IdlingResource getIdlingResources(){
+
+        if(null == mRecipesIdlingResource){
+            mRecipesIdlingResource= new RecipesIdlingResource();
+        }
+        return mRecipesIdlingResource;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
                     .addToBackStack("f1")
                     .commit();
         }
+        getIdlingResources();
     }
 
 

@@ -39,7 +39,7 @@ public class Utility {
             i++;
             strIngredients.append("\u2022" + in.getIngredient()).append("--" + in.getQuantity()).append(" " + in.getMeasure() + "\n \n ");
 
-            if (i == ingredients.size() - 1) {
+            if (i == ingredients.size() ) {
                 return strIngredients;
 
             }
@@ -98,13 +98,14 @@ public class Utility {
 
 
     public static List<Ingredients> loadSharedPreferencesRecipeList(Context context) {
-        List<Ingredients> ingredientsList;
+        List<Ingredients> ingredientsList = new ArrayList<>();
         SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(KEY_INGREDIENTS_WIDGET_JSON, "");
         if (json.isEmpty()) {
             ingredientsList = new ArrayList<>();
         } else {
+
             Type type = new TypeToken<List<Ingredients>>() {
             }.getType();
             ingredientsList = gson.fromJson(json, type);

@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".testing.TestActivity"/>
 
         <receiver android:name=".widget.RecipeIngredientsWidget">
             <intent-filter>
