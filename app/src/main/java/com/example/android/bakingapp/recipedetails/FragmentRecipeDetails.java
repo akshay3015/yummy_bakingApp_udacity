@@ -125,7 +125,12 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        callBackActionbar.showOrHide(true);
+        if (getContext().getResources().getBoolean(R.bool.is_two_pane)){
+            callBackActionbar.showOrHide(false);
+
+        }else {
+            callBackActionbar.showOrHide(true);
+        }
 
 
     }

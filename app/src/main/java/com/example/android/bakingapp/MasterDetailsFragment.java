@@ -1,17 +1,20 @@
 package com.example.android.bakingapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.BaseBackPressedListener;
+import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeDetails;
 import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 
@@ -20,11 +23,14 @@ import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
  */
 
 public class MasterDetailsFragment extends Fragment implements MainActivity.changeFragment {
-private Recipe mRecipe;
+    private Recipe mRecipe;
+    private ShowOrHideBackButtonInActionBar callBackActionbar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details_y_, container, false);
+        callBackActionbar.showOrHide(true);
         ((MainActivity) getActivity()).setChangeFragment(this);
 
         Bundle args = getArguments();
@@ -41,8 +47,8 @@ private Recipe mRecipe;
                 getChildFragmentManager()
                         .beginTransaction()
                         .add(R.id.listcontainer, fragmentRecipeDetails)
+                        .addToBackStack(null)
                         .commit();
-
 
 
             }
@@ -57,10 +63,36 @@ private Recipe mRecipe;
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            getActivity().onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Make sure that container activity implement the callback interface
+        try {
+            callBackActionbar = (ShowOrHideBackButtonInActionBar) context;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement DataPassListener");
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("isInTwoPane",true);
+        outState.putBoolean("isInTwoPane", true);
     }
 
 
@@ -73,6 +105,7 @@ private Recipe mRecipe;
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.detailscontainer, fragmentRecipeSteps)
+                .addToBackStack(null)
                 .commit();
     }
 }

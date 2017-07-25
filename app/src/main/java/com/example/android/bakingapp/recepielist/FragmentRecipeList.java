@@ -56,11 +56,20 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
         void passData(Recipe recipe);
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        (getActivity()).setTitle(R.string.recipeList);
+        callBackActionbar.showOrHide(false);
         mRecepePresenter = new RecipePresenter(this);
         mRecipeList = new ArrayList<>();
         if (null != savedInstanceState) {
@@ -84,15 +93,6 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
         mRvFragmentRecipes.setAdapter(mAdapter);
         ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        (getActivity()).setTitle(R.string.recipeList);
-        callBackActionbar.showOrHide(false);
-
 
     }
 
@@ -112,10 +112,11 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+
+        // Comment to fix the crash on tablets when back pressed in master flow fragment
+//        unbinder.unbind();
 
     }
-
 
 
     @Override
@@ -134,7 +135,9 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
     public void showRecipesList(List<Recipe> recipeList) {
         mRecipeList = recipeList;
         mAdapter = new RecipeAdapter(mRecipeList, this);
-        mRvFragmentRecipes.setAdapter(mAdapter);
+        if (null != mRvFragmentRecipes) {
+            mRvFragmentRecipes.setAdapter(mAdapter);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -152,9 +155,8 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
 
     @Override
     public void showError(String errorMsg) {
-        if (BuildConfig.DEBUG) {
-            Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+
 
     }
 

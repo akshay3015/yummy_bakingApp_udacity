@@ -14,6 +14,11 @@
 
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
+    <ImageView
+        android:id="@+id/step_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ScrollView
         android:id="@+id/sv_container"
         android:layout_marginTop="16dp"

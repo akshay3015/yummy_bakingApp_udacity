@@ -1,6 +1,7 @@
 package com.example.android.bakingapp.application;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
 
 import com.squareup.leakcanary.LeakCanary;
 
@@ -18,6 +19,7 @@ public class BakingApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+        MultiDex.install(this);
         // Normal app init code...
     }
 }

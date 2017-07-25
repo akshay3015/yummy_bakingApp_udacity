@@ -5,6 +5,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +52,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.setData(myItems.get(position));
         holder.mTvRecipeName.setText(myItems.get(position).getName());
         holder.mTvServings.setText("Servings : "+ myItems.get(position).getServings());
+        if (TextUtils.isEmpty(myItems.get(position).getImage())){
+            Picasso.with(holder.mIvRecipe.getContext())
+                    .load(R.drawable.error)
+            .into(holder.mIvRecipe);
+        }else {
+            Picasso.with(holder.mIvRecipe.getContext())
+                    .load(myItems.get(position).getImage())
+            .error(R.drawable.ic_error_outline_black_24dp)
+            .placeholder(R.drawable.error)
+            .into(holder.mIvRecipe);
+        }
 
 //        try {
 //            List<Steps> mStepList = myItems.get(position).getStepsList();

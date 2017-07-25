@@ -11,13 +11,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
+import com.example.android.bakingapp.utils.Utility;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -43,6 +44,8 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +64,8 @@ public class FragmentRecipeSteps extends Fragment {
     TextView mTvStep;
     @BindView(R.id.sv_container)
     ScrollView mSvContainer;
+    @BindView(R.id.step_thumbnail)
+    ImageView mStepThumbnail;
     private Steps mSteps;
     private SimpleExoPlayer recipeVideoPlayer;
     private SimpleExoPlayerView exoPlayerView;
@@ -108,14 +113,47 @@ public class FragmentRecipeSteps extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        callBackActionbar.showOrHide(true);
+        if (getContext().getResources().getBoolean(R.bool.is_two_pane)){
+            callBackActionbar.showOrHide(true);
+
+        }else {
+            callBackActionbar.showOrHide(false);
+        }
         if (mSteps != null) {
             mTvStep.setText(mSteps.getDescription());
+
+            if (TextUtils.isEmpty(mSteps.getThumbnailURL())){
+                mStepThumbnail.setVisibility(View.GONE);
+            }else {
+                mStepThumbnail.setVisibility(View.VISIBLE);
+                Picasso.with(getContext())
+                        .load(mSteps.getThumbnailURL())
+                        .placeholder(R.drawable.error)
+                        .error(R.drawable.ic_error_outline_black_24dp)
+                        .into(mStepThumbnail, new Callback() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+                                try {
+                                    mStepThumbnail.setImageBitmap(Utility.retriveVideoFrameFromVideo(mSteps.getThumbnailURL()));
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        });
+            }
 
             if (TextUtils.isEmpty(mSteps.getVideoURL())) {
 
                 mExoplayer.setVisibility(View.GONE);
+
+
             } else {
+
                 mExoplayer.setVisibility(View.VISIBLE);
                 Uri video = Uri.parse(mSteps.getVideoURL());
                 DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), "recipes"), null);
@@ -193,8 +231,7 @@ public class FragmentRecipeSteps extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == android.R.id.home)
-        {
+        if (id == android.R.id.home) {
             getActivity().onBackPressed();
             return true;
         }
