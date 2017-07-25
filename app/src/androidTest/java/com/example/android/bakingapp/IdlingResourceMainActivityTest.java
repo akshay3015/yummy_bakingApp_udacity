@@ -18,6 +18,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
 /**
@@ -43,10 +44,11 @@ public class IdlingResourceMainActivityTest {
     public void onClickOnRecipeOpensDetailsScreen() {
 
         onView(withId(R.id.rv_fragment_recipes))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(withId(R.id.tv_ingredients))
                 .check(matches(isDisplayed()));
+
 
 
     }

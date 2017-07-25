@@ -57,7 +57,7 @@ import butterknife.Unbinder;
 
 public class FragmentRecipeSteps extends Fragment {
     private static final String TAG = "FragmentRecipeSteps";
-    @BindView(R.id.exoplayer)
+    @BindView(R.id.exoplayer_recipe)
     SimpleExoPlayerView mExoplayer;
     Unbinder unbinder;
     @BindView(R.id.tv_step)
@@ -257,7 +257,7 @@ public class FragmentRecipeSteps extends Fragment {
 // 3. Create the player
         recipeVideoPlayer = ExoPlayerFactory.newSimpleInstance(render, trackSelector, loadControl);
         exoPlayerView = new SimpleExoPlayerView(getContext());
-        exoPlayerView = (SimpleExoPlayerView) v.findViewById(R.id.exoplayer);
+        exoPlayerView = (SimpleExoPlayerView) v.findViewById(R.id.exoplayer_recipe);
 
 //Set media controller
         exoPlayerView.setUseController(true);

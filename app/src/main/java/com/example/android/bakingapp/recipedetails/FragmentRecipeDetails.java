@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.android.bakingapp.MainActivity;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.beans.Recipe;
@@ -28,8 +29,12 @@ import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.custom.StatefulRecyclerView;
 import com.example.android.bakingapp.utils.Utility;
 import com.example.android.bakingapp.widget.RecipeIngredientsWidget;
+
+import org.junit.Ignore;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -51,6 +56,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private DataPassToStepsListener callBackSteps;
     private List<Steps> mStepsList;
     private ShowOrHideBackButtonInActionBar callBackActionbar;
+    private boolean isEspressoTest = false;
 
     @Override
     public void onItemClick(Steps item) {
@@ -68,10 +74,15 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details_y, container, false);
         unbinder = ButterKnife.bind(this, view);
+        Bundle args = getArguments();
+        if (null !=args && args.containsKey("isTest")){
+            isEspressoTest =true;
+        }
+        if (!isEspressoTest) {
+            ((MainActivity) getActivity()).
+                    setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
 
-        ((MainActivity) getActivity()).setOnBackPressedListener(new BaseBackPressedListener((AppCompatActivity) getContext()));
-
-
+        }
         return view;
     }
 
@@ -86,6 +97,8 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+
         if (id == R.id.action_widget) {
 
             Utility.saveSharedPreferencesRecipeList(getContext(), mRecipe.getIngredientsList());
@@ -108,8 +121,7 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
             return true;
         }
 
-        if (id== android.R.id.home)
-        {
+        if (id == android.R.id.home) {
             getActivity().onBackPressed();
         }
 
@@ -125,10 +137,10 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getContext().getResources().getBoolean(R.bool.is_two_pane)){
+        if (getContext().getResources().getBoolean(R.bool.is_two_pane)) {
             callBackActionbar.showOrHide(false);
 
-        }else {
+        } else {
             callBackActionbar.showOrHide(true);
         }
 
@@ -170,6 +182,8 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
 
 
             }
+
+
 
         }
     }

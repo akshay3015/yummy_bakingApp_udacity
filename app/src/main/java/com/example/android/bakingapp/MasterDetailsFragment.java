@@ -25,15 +25,21 @@ import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 public class MasterDetailsFragment extends Fragment implements MainActivity.changeFragment {
     private Recipe mRecipe;
     private ShowOrHideBackButtonInActionBar callBackActionbar;
+    private boolean isEspressoTest = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details_y_, container, false);
-        callBackActionbar.showOrHide(true);
-        ((MainActivity) getActivity()).setChangeFragment(this);
-
+//        callBackActionbar.showOrHide(true);
         Bundle args = getArguments();
+        if (null !=args && args.containsKey("isTest")){
+            isEspressoTest =true;
+        }else {
+            ((MainActivity) getActivity()).setChangeFragment(this);
+        }
+
+
         if (null != args && args.containsKey("recipe")) {
             mRecipe = args.getParcelable("recipe");
 
@@ -43,6 +49,9 @@ public class MasterDetailsFragment extends Fragment implements MainActivity.chan
                 FragmentRecipeDetails fragmentRecipeDetails = new FragmentRecipeDetails();
                 Bundle b = new Bundle();
                 b.putParcelable("recipe", mRecipe);
+                if (isEspressoTest){
+                    b.putBoolean("isTest", true);
+                }
                 fragmentRecipeDetails.setArguments(b);
                 getChildFragmentManager()
                         .beginTransaction()

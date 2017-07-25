@@ -11,6 +11,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -56,6 +58,13 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
         void passData(Recipe recipe);
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -158,6 +167,11 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
         Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
 
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_dummy, menu);
     }
 
 

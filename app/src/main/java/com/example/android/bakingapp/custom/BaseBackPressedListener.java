@@ -22,6 +22,7 @@ public class BaseBackPressedListener implements OnBackPressedListener {
         if (activity.getResources().getBoolean(R.bool.is_two_pane)){
             activity.getSupportFragmentManager()
                     .beginTransaction()
+                    .remove(new MasterDetailsFragment())
                     .replace(R.id.container, new FragmentRecipeList())
                     .commit();
 
