@@ -69,9 +69,14 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
         void passDataToSteps(Steps steps,int position,Recipe recipe);
     }
 
+    public interface DataPassToStepsListenerNew {
+        void passDataToStepsN(Steps steps,int position,Recipe recipe);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        container.removeAllViews();
         View view = inflater.inflate(R.layout.fragment_details_y, container, false);
         unbinder = ButterKnife.bind(this, view);
         Bundle args = getArguments();

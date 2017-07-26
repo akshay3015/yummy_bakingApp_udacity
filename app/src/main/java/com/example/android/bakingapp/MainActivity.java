@@ -18,7 +18,7 @@ import com.example.android.bakingapp.recipedetails.FragmentRecipeSteps;
 import com.example.android.bakingapp.testing.RecipesIdlingResource;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener, ShowOrHideBackButtonInActionBar{
+public class MainActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener, ShowOrHideBackButtonInActionBar,FragmentRecipeDetails.DataPassToStepsListenerNew{
     protected OnBackPressedListener onBackPressedListener;
     private boolean isTwoPane;
     private changeFragment mChangeFragment;
@@ -90,6 +90,22 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(b);
     }
 
+    @Override
+    public void passDataToStepsN(Steps steps, int position, Recipe recipe) {
+        FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
+        Bundle b = new Bundle();
+        b.putSerializable("steps", steps);
+        b.putInt("position",position);
+        b.putParcelable("recipe", recipe);
+        fragmentRecipeSteps.setArguments(b);
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragmentRecipeSteps)
+                .commit();
+    }
+
 
     interface changeFragment {
         void changeFragmentInStepsFragment(Steps steps);
@@ -125,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, fragmentRecipeSteps)
+                        .addToBackStack("f3")
                         .commit();
 
 
