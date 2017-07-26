@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.android.bakingapp.beans.Ingredients;
@@ -72,7 +73,8 @@ public class Utility {
 
         String json = gson.toJson(ingredientsList);
         prefsEditor.putString(KEY_INGREDIENTS_WIDGET_JSON, json);
-        prefsEditor.commit();
+        // use of apply instead of commit doesn't block UI thread
+        prefsEditor.apply();
     }
 
 
@@ -80,7 +82,7 @@ public class Utility {
         SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         prefsEditor.putString(KEY_RECIPE_NAME, strTitle);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
 
@@ -106,7 +108,7 @@ public class Utility {
         SharedPreferences mPrefs = context.getSharedPreferences(KEY_INGREDIENTS_WIDGET, context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(KEY_INGREDIENTS_WIDGET_JSON, "");
-        if (json.isEmpty()) {
+        if (TextUtils.isEmpty(json)) {
             ingredientsList = new ArrayList<>();
         } else {
 

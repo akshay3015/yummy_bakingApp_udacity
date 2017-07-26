@@ -45,7 +45,7 @@ public class RecipeDescriptionAdapter extends RecyclerView.Adapter<RecipeDescrip
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setData(mStepsList.get(position));
+        holder.setData(mStepsList.get(position),position);
         holder.mTvStepDescription.setText(mStepsList.get(position).getShortDescription());
         if (TextUtils.isEmpty( mStepsList.get(position).getVideoURL())) {
            holder.mIvPlay.setVisibility(View.GONE);
@@ -53,20 +53,21 @@ public class RecipeDescriptionAdapter extends RecyclerView.Adapter<RecipeDescrip
             holder.mIvPlay.setVisibility(View.VISIBLE);
         }
         if (selectedPosition == position && isTwopane){
-            myListener.onItemClick(mStepsList.get(0));
+            myListener.onItemClick(mStepsList.get(0),position);
         }
 
 
     }
 
     public interface ItemListener {
-        void onItemClick(Steps item);
+        void onItemClick(Steps item,int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
         public Steps item;
+        public int position;
 
         @BindView(R.id.iv_play)
         ImageView mIvPlay;
@@ -81,15 +82,16 @@ public class RecipeDescriptionAdapter extends RecyclerView.Adapter<RecipeDescrip
 
         }
 
-        public void setData(Steps item) {
+        public void setData(Steps item, int position) {
             this.item = item;
+            this.position = position;
 
         }
 
         @Override
         public void onClick(View v) {
             if (myListener != null) {
-                myListener.onItemClick(item);
+                myListener.onItemClick(item,position);
             }
         }
     }

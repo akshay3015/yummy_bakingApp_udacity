@@ -53,7 +53,7 @@ public class RecipePresenter implements RecipesListContract.Presenter {
 
 
                 recipeList = response.body();
-                if (recipeList.size() !=0 && null != recipeList){
+                if (  null != recipeList && !recipeList.isEmpty()){
                     mView.showRecipesList(recipeList);
                     mView.hidProgressBar();
                 }

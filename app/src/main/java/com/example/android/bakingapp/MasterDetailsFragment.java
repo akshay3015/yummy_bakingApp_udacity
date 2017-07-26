@@ -56,7 +56,6 @@ public class MasterDetailsFragment extends Fragment implements MainActivity.chan
                 getChildFragmentManager()
                         .beginTransaction()
                         .add(R.id.listcontainer, fragmentRecipeDetails)
-                        .addToBackStack(null)
                         .commit();
 
 
@@ -114,7 +113,6 @@ public class MasterDetailsFragment extends Fragment implements MainActivity.chan
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.detailscontainer, fragmentRecipeSteps)
-                .addToBackStack(null)
                 .commit();
     }
 }

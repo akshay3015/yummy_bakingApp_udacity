@@ -97,15 +97,16 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
 
     @Override
     public void onBackPressed() {
-        if (onBackPressedListener != null)
+        if (onBackPressedListener != null) {
             onBackPressedListener.doBack();
-        else
+        } else {
             super.onBackPressed();
+        }
     }
 
 
     @Override
-    public void passDataToSteps(Steps steps) {
+    public void passDataToSteps(Steps steps,int position,Recipe recipe) {
 
         if (isTwoPane) {
             mChangeFragment.changeFragmentInStepsFragment(steps);
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
             FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
             Bundle b = new Bundle();
             b.putSerializable("steps", steps);
+            b.putInt("position",position);
+            b.putParcelable("recipe", recipe);
             fragmentRecipeSteps.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()

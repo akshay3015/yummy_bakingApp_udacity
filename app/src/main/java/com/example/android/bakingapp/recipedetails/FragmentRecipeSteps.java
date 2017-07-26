@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
 import com.example.android.bakingapp.custom.ShowOrHideBackButtonInActionBar;
 import com.example.android.bakingapp.utils.Utility;
@@ -47,6 +50,9 @@ import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -66,12 +72,21 @@ public class FragmentRecipeSteps extends Fragment {
     ScrollView mSvContainer;
     @BindView(R.id.step_thumbnail)
     ImageView mStepThumbnail;
+    @BindView(R.id.btn_previous)
+    Button mBtnPrevious;
+    @BindView(R.id.btnNext)
+    Button mBtnNext;
+    @BindView(R.id.buttons)
+    LinearLayout mButtons;
     private Steps mSteps;
     private SimpleExoPlayer recipeVideoPlayer;
     private SimpleExoPlayerView exoPlayerView;
     private boolean isTwoPane;
     private ShowOrHideBackButtonInActionBar callBackActionbar;
-
+    private List<Steps> mStepsList = new ArrayList<>();
+    int position = 0;
+    private FragmentRecipeDetails.DataPassToStepsListener callBackSteps;
+    private Recipe recipe;
 
     @Nullable
     @Override
@@ -79,13 +94,59 @@ public class FragmentRecipeSteps extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
         unbinder = ButterKnife.bind(this, view);
         isTwoPane = getActivity().getResources().getBoolean(R.bool.is_two_pane);
+        if (isTwoPane) {
+            mButtons.setVisibility(View.GONE);
+        } else {
+            mButtons.setVisibility(View.VISIBLE);
+        }
 
         initPlayer(view);
         Bundle args = getArguments();
+        if (null != args && args.containsKey("recipe")) {
+             recipe =args.getParcelable("recipe");
+            mStepsList = recipe.getStepsList();
+
+        }
+
         if (null != args && args.containsKey("steps")) {
             mSteps = (Steps) args.getSerializable("steps");
+        }
+
+        if (null != args && args.containsKey("position")) {
+
+            position = args.getInt("position");
+            if (0 == position) {
+                mBtnPrevious.setVisibility(View.GONE);
+            } else {
+                mBtnPrevious.setVisibility(View.VISIBLE);
+            }
+
+            if (position == mStepsList.size() - 1) {
+                mBtnNext.setVisibility(View.GONE);
+            } else {
+                mBtnNext.setVisibility(View.VISIBLE);
+            }
 
 
+            mBtnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (position < mStepsList.size())
+                        mSteps = mStepsList.get(position + 1);
+                    callBackSteps.passDataToSteps(mSteps, position + 1,recipe );
+
+                }
+            });
+
+            mBtnPrevious.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (position > 0)
+                        mSteps = mStepsList.get(position - 1);
+                    callBackSteps.passDataToSteps(mSteps, position - 1,recipe );
+
+                }
+            });
         }
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTwoPane) {
@@ -113,18 +174,18 @@ public class FragmentRecipeSteps extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getContext().getResources().getBoolean(R.bool.is_two_pane)){
+        if (getContext().getResources().getBoolean(R.bool.is_two_pane)) {
             callBackActionbar.showOrHide(true);
 
-        }else {
+        } else {
             callBackActionbar.showOrHide(false);
         }
         if (mSteps != null) {
             mTvStep.setText(mSteps.getDescription());
 
-            if (TextUtils.isEmpty(mSteps.getThumbnailURL())){
+            if (TextUtils.isEmpty(mSteps.getThumbnailURL())) {
                 mStepThumbnail.setVisibility(View.GONE);
-            }else {
+            } else {
                 mStepThumbnail.setVisibility(View.VISIBLE);
                 Picasso.with(getContext())
                         .load(mSteps.getThumbnailURL())
@@ -220,6 +281,7 @@ public class FragmentRecipeSteps extends Fragment {
         // Make sure that container activity implement the callback interface
         try {
             callBackActionbar = (ShowOrHideBackButtonInActionBar) context;
+            callBackSteps = (FragmentRecipeDetails.DataPassToStepsListener) context;
 
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()

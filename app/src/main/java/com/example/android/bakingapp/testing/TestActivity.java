@@ -78,7 +78,7 @@ public class TestActivity extends AppCompatActivity implements FragmentRecipeLis
     }
 
     @Override
-    public void passDataToSteps(Steps steps) {
+    public void passDataToSteps(Steps steps,int i ,Recipe recipe) {
 
         Steps steps1 = new Steps();
         steps.setId(0);

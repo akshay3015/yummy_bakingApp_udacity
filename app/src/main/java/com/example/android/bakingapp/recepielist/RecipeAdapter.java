@@ -64,14 +64,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             .into(holder.mIvRecipe);
         }
 
-//        try {
-//            List<Steps> mStepList = myItems.get(position).getStepsList();
-////            Bitmap bitmap = retriveVideoFrameFromVideo(myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL().toString());
-//
-//            Log.d("videoUrl", "onBindViewHolder: " + myItems.get(position).getStepsList().get(mStepList.size()-1).getVideoURL());
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
+
 
     }
 

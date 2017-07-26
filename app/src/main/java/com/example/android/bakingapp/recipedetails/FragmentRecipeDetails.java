@@ -59,14 +59,14 @@ public class FragmentRecipeDetails extends Fragment implements RecipeDescription
     private boolean isEspressoTest = false;
 
     @Override
-    public void onItemClick(Steps item) {
+    public void onItemClick(Steps item,int position) {
 
-        callBackSteps.passDataToSteps(item);
+        callBackSteps.passDataToSteps(item ,position,mRecipe);
 
     }
 
     public interface DataPassToStepsListener {
-        void passDataToSteps(Steps steps);
+        void passDataToSteps(Steps steps,int position,Recipe recipe);
     }
 
     @Nullable
