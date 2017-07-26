@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,6 +94,7 @@ public class FragmentRecipeSteps extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         isTwoPane = getActivity().getResources().getBoolean(R.bool.is_two_pane);
         if (isTwoPane) {
             mButtons.setVisibility(View.GONE);
@@ -103,7 +105,7 @@ public class FragmentRecipeSteps extends Fragment {
         initPlayer(view);
         Bundle args = getArguments();
         if (null != args && args.containsKey("recipe")) {
-             recipe =args.getParcelable("recipe");
+            recipe = args.getParcelable("recipe");
             mStepsList = recipe.getStepsList();
 
         }
@@ -133,7 +135,7 @@ public class FragmentRecipeSteps extends Fragment {
                 public void onClick(View view) {
                     if (position < mStepsList.size())
                         mSteps = mStepsList.get(position + 1);
-                    callBackSteps.passDataToSteps(mSteps, position + 1,recipe );
+                    callBackSteps.passDataToSteps(mSteps, position + 1, recipe);
 
                 }
             });
@@ -143,10 +145,12 @@ public class FragmentRecipeSteps extends Fragment {
                 public void onClick(View view) {
                     if (position > 0)
                         mSteps = mStepsList.get(position - 1);
-                    callBackSteps.passDataToSteps(mSteps, position - 1,recipe );
+                    callBackSteps.passDataToSteps(mSteps, position - 1, recipe);
 
                 }
             });
+
+
         }
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTwoPane) {
@@ -163,6 +167,7 @@ public class FragmentRecipeSteps extends Fragment {
 
         return view;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -6,6 +6,7 @@ import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.beans.Recipe;
 import com.example.android.bakingapp.beans.Steps;
@@ -112,17 +113,22 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
             mChangeFragment.changeFragmentInStepsFragment(steps);
 
         } else {
+
             FragmentRecipeSteps fragmentRecipeSteps = new FragmentRecipeSteps();
             Bundle b = new Bundle();
             b.putSerializable("steps", steps);
             b.putInt("position",position);
             b.putParcelable("recipe", recipe);
             fragmentRecipeSteps.setArguments(b);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragmentRecipeSteps)
-                    .addToBackStack("f3")
-                    .commit();
+
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragmentRecipeSteps)
+                        .commit();
+
+
+
         }
 
 

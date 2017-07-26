@@ -69,6 +69,8 @@ public class FragmentRecipeList extends Fragment implements RecipesListContract.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        container.removeAllViews();
         View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
