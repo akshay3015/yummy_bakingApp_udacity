@@ -220,10 +220,10 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getContext().getResources().getBoolean(R.bool.is_two_pane)) {
-            callBackActionbar.showOrHide(true);
+            callBackActionbar.showOrHide(false);
 
         } else {
-            callBackActionbar.showOrHide(false);
+            callBackActionbar.showOrHide(true);
         }
         if (mSteps != null) {
             mTvStep.setText(mSteps.getDescription());
@@ -245,7 +245,19 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
                             @Override
                             public void onError() {
                                 try {
-                                    mStepThumbnail.setImageBitmap(Utility.retriveVideoFrameFromVideo(mSteps.getThumbnailURL()));
+
+                                     Runnable runnable = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                mStepThumbnail.setImageBitmap(Utility.retriveVideoFrameFromVideo(mSteps.getThumbnailURL()));
+                                            } catch (Throwable throwable) {
+                                                throwable.printStackTrace();
+                                            }
+
+                                        }
+                                    };
+                                    runnable.run();
                                 } catch (Throwable throwable) {
                                     throwable.printStackTrace();
                                 }

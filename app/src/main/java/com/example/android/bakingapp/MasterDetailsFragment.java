@@ -31,7 +31,7 @@ public class MasterDetailsFragment extends Fragment implements MainActivity.chan
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details_y_, container, false);
-//        callBackActionbar.showOrHide(true);
+
         Bundle args = getArguments();
         if (null !=args && args.containsKey("isTest")){
             isEspressoTest =true;
