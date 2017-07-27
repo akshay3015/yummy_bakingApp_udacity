@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -40,7 +41,7 @@ public class FragmentDetailsTestPhone {
 
         onView(withContentDescription(R.string.add_to_widegt)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.rv_steps))
+        onView(withId(R.id.rv_steps)).perform(scrollTo())
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(withId(R.id.tv_step))

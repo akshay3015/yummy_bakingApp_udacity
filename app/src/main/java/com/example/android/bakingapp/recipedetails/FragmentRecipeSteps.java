@@ -263,6 +263,7 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
         // Make sure that container activity implement the callback interface
         try {
             callBackActionbar = (ShowOrHideBackButtonInActionBar) context;
+
             callBackSteps = (FragmentRecipeDetails.DataPassToStepsListenerNew) context;
 
         } catch (ClassCastException e) {

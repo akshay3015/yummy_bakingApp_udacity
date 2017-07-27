@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @VisibleForTesting
-public class TestActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener,ShowOrHideBackButtonInActionBar {
+public class TestActivity extends AppCompatActivity implements FragmentRecipeList.DataPassListener, FragmentRecipeDetails.DataPassToStepsListener,ShowOrHideBackButtonInActionBar,FragmentRecipeDetails.DataPassToStepsListenerNew {
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +101,11 @@ public class TestActivity extends AppCompatActivity implements FragmentRecipeLis
     @Override
     public void showOrHide(Boolean b) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(b);
+
+    }
+
+    @Override
+    public void passDataToStepsN(Steps steps, int position, Recipe recipe) {
 
     }
 }

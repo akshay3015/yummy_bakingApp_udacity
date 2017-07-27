@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isTwoPane = getResources().getBoolean(R.bool.is_two_pane);
+        getIdlingResources();
         if (savedInstanceState == null) {
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRecipeLis
                     .addToBackStack("f1")
                     .commit();
         }
-        getIdlingResources();
+
     }
 
 
