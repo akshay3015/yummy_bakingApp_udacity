@@ -88,7 +88,7 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
     LinearLayout mButtons;
     private Steps mSteps;
     private SimpleExoPlayer recipeVideoPlayer;
-//    private SimpleExoPlayerView exoPlayerView;
+    //    private SimpleExoPlayerView exoPlayerView;
     private boolean isTwoPane;
     private ShowOrHideBackButtonInActionBar callBackActionbar;
     private List<Steps> mStepsList = new ArrayList<>();
@@ -107,7 +107,6 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
         DEFAULT_COOKIE_MANAGER = new CookieManager();
         DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
     }
-
 
 
     @Nullable
@@ -212,8 +211,9 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
     @Override
     public void onResume() {
         super.onResume();
-
-                initPlayer();
+        if (recipeVideoPlayer == null) {
+            initPlayer();
+        }
     }
 
     @Override
@@ -246,7 +246,7 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
                             public void onError() {
                                 try {
 
-                                     Runnable runnable = new Runnable() {
+                                    Runnable runnable = new Runnable() {
                                         @Override
                                         public void run() {
                                             try {
@@ -346,7 +346,7 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
             if (haveResumePosition) {
                 recipeVideoPlayer.seekTo(resumeWindow, resumePosition);
             }
-            recipeVideoPlayer.prepare(videoSource,!haveResumePosition,false);
+            recipeVideoPlayer.prepare(videoSource, !haveResumePosition, false);
 
             recipeVideoPlayer.setPlayWhenReady(true);
 
@@ -385,7 +385,7 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
 
                 @Override
                 public void onPositionDiscontinuity() {
-                    updateResumePosition();
+//                    updateResumePosition();
                 }
 
                 @Override
@@ -415,22 +415,22 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
     @Override
     public void onDestroy() {
         super.onDestroy();
-        recipeVideoPlayer.release();
-        updateResumePosition();
+        releasePlayer();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        recipeVideoPlayer.release();
-        updateResumePosition();
+        releasePlayer();
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        recipeVideoPlayer.release();
-        updateResumePosition();
+        releasePlayer();
+
     }
 
 
@@ -448,6 +448,15 @@ public class FragmentRecipeSteps extends Fragment implements PlaybackControlView
     private void clearResumePosition() {
         resumeWindow = C.INDEX_UNSET;
         resumePosition = C.TIME_UNSET;
+    }
+
+    private void releasePlayer() {
+        if (recipeVideoPlayer != null) {
+            updateResumePosition();
+            recipeVideoPlayer.stop();
+            recipeVideoPlayer.release();
+            recipeVideoPlayer = null;
+        }
     }
 
 
